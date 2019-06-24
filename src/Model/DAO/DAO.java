@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Théo Weimann
  * @version 1.2
  */
-class DAO
+public class DAO
 {
     
     /**
@@ -78,19 +78,18 @@ class DAO
                 {
                     for (Point importedInterstionOrigin : importedIntersections)
                     {
+
                         if (importedInterstionOrigin.getId() == resultSet.getString(1)
                                                                          .toCharArray()[0])
                         {
                             for (Point importedInterstionDestination : importedIntersections)
                             {
-                                if (importedInterstionOrigin.getId() == resultSet.getString(2)
+                                if (importedInterstionDestination.getId() == resultSet.getString(2)
                                                                                  .toCharArray()[0])
                                 {
                                     importedConnections.add(new Vector(importedInterstionOrigin, importedInterstionDestination));
                                 }
-                                break;
                             }
-                            break;
                         }
                         
                     }

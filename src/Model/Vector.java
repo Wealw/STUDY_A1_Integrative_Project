@@ -12,11 +12,11 @@ public class Vector
         this.destination = newDestination;
     }
     
-    private Point getOrigin()
+    public Point getOrigin()
     {
         return origin;
     }
-    private Point getDestination()
+    public Point getDestination()
     {
         return destination;
     }
