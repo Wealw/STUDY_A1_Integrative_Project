@@ -2,49 +2,87 @@ package Model;
 
 public class Vehicle
 {
-    private String[] name;
-    private String[] mac;
-    private Vector actualPosition;
+    private String name;
+    private String mac;
+    private Vector section;
     private Point facing;
-    
-    public Vehicle(final String[] newName, final String[] newMac , final Vector newActualPosition, final Point newFacing){
+    private int speed;
+    private int positionOnSection;
+    private int distanceOnSection;
+    private int totalDistance;
+
+    public Vehicle(final String newName, final String newMac , final Vector newActualSection, final Point newFacing){
         this.name = newName;
         this.mac = newMac;
-        this. actualPosition = newActualPosition;
-        this. facing = newFacing;
+        this.section = newActualSection;
+        this.facing = newFacing;
+        this.positionOnSection = 0;
+        this.distanceOnSection = 0;
+        this.totalDistance = 0;
     }
-    
-    private String[] getName()
+
+    public String getName()
     {
         return name;
     }
-    private void setName(String[] name)
+    public void setName(String name)
     {
         this.name = name;
     }
-    private String[] getMac()
+    public String getMac()
     {
         return mac;
     }
-    private void setMac(String[] mac)
+    public void setMac(String mac)
     {
         this.mac = mac;
     }
-    private Vector getActualPosition()
+    public Vector getActualPosition()
     {
-        return actualPosition;
+        return section;
     }
-    private void setActualPosition(Vector actualPosition)
+    public void setActualPosition(Vector section)
     {
-        this.actualPosition = actualPosition;
+        this.section = section;
     }
     private Point getFacing()
     {
         return facing;
     }
-    private void setFacing(Point facing)
+    public void setFacing(Point facing)
     {
         this.facing = facing;
     }
-    
+
+    public int getPositionOnSection() {
+        return positionOnSection;
+    }
+
+    public void setPositionOnSection(int positionOnSection) {
+        this.positionOnSection = positionOnSection;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getDistanceOnSection() {
+        return distanceOnSection;
+    }
+
+    public void setDistanceOnSection(int distanceOnSection) {
+        this.distanceOnSection = distanceOnSection;
+    }
+
+    public int getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(int totalDistance) {
+        this.totalDistance = totalDistance;
+    }
 }
