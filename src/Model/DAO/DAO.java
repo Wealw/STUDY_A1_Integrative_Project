@@ -18,18 +18,18 @@ import java.util.ArrayList;
  */
 public class DAO
 {
-    
+
     /**
      * Unique instance of the DAOmap class.
      */
     final static private DAO instance = new DAO(DBConnection.getInstance()
-                                                            .getConnection());
-    
+            .getConnection());
+
     /**
      * The connection parameter inherited from the "../../resources/model.properties" and get by the Abstract class Connection.
      */
     private final Connection connection;
-    
+
     /**
      * Constructor of the DAOmap class.
      *
@@ -39,7 +39,7 @@ public class DAO
     {
         this.connection = connection;
     }
-    
+
     /**
      * Use to get the unique instance of the class DAO.
      *
@@ -49,7 +49,7 @@ public class DAO
     {
         return instance;
     }
-    
+
     /**
      * Import a map from a distant DB.
      *
@@ -67,7 +67,7 @@ public class DAO
                 while (!resultSet.isAfterLast())
                 {
                     importedIntersections.add(new Point(resultSet.getString(1)
-                                                                 .toCharArray()[0], resultSet.getInt(2), resultSet.getInt(3)));
+                            .toCharArray()[0], resultSet.getInt(2), resultSet.getInt(3)));
                     resultSet.next();
                 }
             }
@@ -80,26 +80,26 @@ public class DAO
                     {
 
                         if (importedInterstionOrigin.getId() == resultSet.getString(1)
-                                                                         .toCharArray()[0])
+                                .toCharArray()[0])
                         {
                             for (Point importedInterstionDestination : importedIntersections)
                             {
                                 if (importedInterstionDestination.getId() == resultSet.getString(2)
-                                                                                 .toCharArray()[0])
+                                        .toCharArray()[0])
                                 {
                                     importedConnections.add(new Vector(importedInterstionOrigin, importedInterstionDestination));
                                 }
                             }
                         }
-                        
+
                     }
                     resultSet.next();
                 }
             }
             Map.getInstance()
-               .setIntersections(importedIntersections);
+                    .setIntersections(importedIntersections);
             Map.getInstance()
-               .setConnections(importedConnections);
+                    .setConnections(importedConnections);
         }
         catch (final Exception e)
         {
@@ -122,7 +122,7 @@ public class DAO
             e.printStackTrace();
             throw new Error("Database not found. See if it's available or credential are good in model.properties");
         }
-        
+
     }
-    
+
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 24 juin 2019 à 13:18
+-- Généré le :  mar. 25 juin 2019 à 07:42
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -26,6 +26,12 @@ DELIMITER $$
 --
 -- Procédures
 --
+DROP PROCEDURE IF EXISTS `getMap`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMap` (IN `p_id_map` INT)  NO SQL
+SELECT map.Nom, map.Longueur, map.Hauteur
+FROM map
+WHERE map.ID_Map = p_id_map$$
+
 DROP PROCEDURE IF EXISTS `getPoints`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPoints` (IN `p_id_map` INT)  NO SQL
 SELECT points.Point, points.PosX, points.PosY
@@ -83,22 +89,22 @@ CREATE TABLE IF NOT EXISTS `points` (
 --
 
 INSERT INTO `points` (`ID_Point`, `ID_Map`, `Point`, `PosX`, `PosY`) VALUES
-(1, 1, 'A', 0, 54),
-(2, 1, 'B', 19, 54),
-(3, 1, 'C', 59, 54),
-(4, 1, 'D', 78, 54),
-(5, 1, 'E', 90, 54),
-(6, 1, 'F', 0, 40),
-(7, 1, 'G', 19, 40),
-(8, 1, 'H', 59, 40),
-(9, 1, 'I', 0, 22),
-(10, 1, 'J', 78, 22),
-(11, 1, 'K', 90, 22),
-(12, 1, 'L', 19, 12),
-(13, 1, 'M', 78, 12),
-(14, 1, 'N', 0, 0),
-(15, 1, 'O', 19, 0),
-(16, 1, 'P', 90, 0);
+(1, 1, 'A', 100, 330),
+(2, 1, 'B', 266, 330),
+(3, 1, 'C', 599, 330),
+(4, 1, 'D', 764, 330),
+(5, 1, 'E', 875, 330),
+(6, 1, 'F', 100, 413),
+(7, 1, 'G', 266, 413),
+(8, 1, 'H', 599, 413),
+(9, 1, 'I', 100, 496),
+(10, 1, 'J', 764, 496),
+(11, 1, 'K', 875, 496),
+(12, 1, 'L', 266, 558),
+(13, 1, 'M', 764, 558),
+(14, 1, 'N', 100, 621),
+(15, 1, 'O', 266, 621),
+(16, 1, 'P', 875, 621);
 
 -- --------------------------------------------------------
 

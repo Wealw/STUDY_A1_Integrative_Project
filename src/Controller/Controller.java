@@ -3,6 +3,7 @@ package Controller;
 import Contract.IController;
 import Contract.IModel;
 import Contract.IView;
+import Model.Map;
 
 public class Controller implements IController,Runnable
 {

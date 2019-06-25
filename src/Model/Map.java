@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Map
 {
-    
+
     final static private Map instance = new Map();
     private ArrayList<Point> intersections = new ArrayList<Point>();
     private ArrayList<Vector> connections = new ArrayList<Vector>();
-    
+
     private Map()
     {
-    
+
     }
-    
+
     public static Map getInstance(){
         return instance;
     }
-    
-    
+
+
     public ArrayList<Point> getIntersections()
     {
         return intersections;
@@ -35,5 +35,5 @@ public class Map
     {
         this.connections = connections;
     }
-    
+
 }

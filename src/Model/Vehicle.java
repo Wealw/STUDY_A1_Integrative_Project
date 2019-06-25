@@ -6,10 +6,10 @@ public class Vehicle
     private String mac;
     private Vector section;
     private Point facing;
-    private int speed;
-    private int positionOnSection;
-    private int distanceOnSection;
-    private int totalDistance;
+    private int   speed;
+    private int   positionOnSection;
+    private int   distanceOnSection;
+    private int   totalDistance;
 
     public Vehicle(final String newName, final String newMac , final Vector newActualSection, final Point newFacing){
         this.name = newName;
@@ -20,7 +20,6 @@ public class Vehicle
         this.distanceOnSection = 0;
         this.totalDistance = 0;
     }
-
     public String getName()
     {
         return name;
@@ -37,15 +36,15 @@ public class Vehicle
     {
         this.mac = mac;
     }
-    public Vector getActualPosition()
+    public Vector getSection()
     {
         return section;
     }
-    public void setActualPosition(Vector section)
+    public void setSection(Vector section)
     {
         this.section = section;
     }
-    private Point getFacing()
+    public Point getFacing()
     {
         return facing;
     }
@@ -53,36 +52,37 @@ public class Vehicle
     {
         this.facing = facing;
     }
-
-    public int getPositionOnSection() {
-        return positionOnSection;
-    }
-
-    public void setPositionOnSection(int positionOnSection) {
-        this.positionOnSection = positionOnSection;
-    }
-
-    public int getSpeed() {
+    public int getSpeed()
+    {
         return speed;
     }
-
-    public void setSpeed(int speed) {
+    public void setSpeed(int speed)
+    {
         this.speed = speed;
     }
-
-    public int getDistanceOnSection() {
+    public int getPositionOnSection()
+    {
+        return positionOnSection;
+    }
+    public void setPositionOnSection(int positionOnSection)
+    {
+        this.positionOnSection = positionOnSection;
+    }
+    public int getDistanceOnSection()
+    {
         return distanceOnSection;
     }
-
-    public void setDistanceOnSection(int distanceOnSection) {
+    public void setDistanceOnSection(int distanceOnSection)
+    {
         this.distanceOnSection = distanceOnSection;
     }
-
-    public int getTotalDistance() {
+    public int getTotalDistance()
+    {
         return totalDistance;
     }
-
-    public void setTotalDistance(int totalDistance) {
+    public void setTotalDistance(int totalDistance)
+    {
         this.totalDistance = totalDistance;
     }
+    
 }

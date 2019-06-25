@@ -11,43 +11,43 @@ import java.util.Properties;
  */
 class DBProperties extends Properties
 {
-    
+
     /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 5289057445894568927L;
-    
+
     /**
      * The Constant PROPERTIES_FILE_NAME.
      */
-    private final static String PROPERTIES_FILE_NAME = "Model/DAO/model.properties";
-    
+    private final static String PROPERTIES_FILE_NAME = "model.properties";
+
     /**
      * The url.
      */
     private String url = "";
-    
+
     /**
      * The login.
      */
     private String login = "";
-    
+
     /**
      * The password.
      */
     private String password = "";
-    
+
     /**
      * Instantiates a new DB properties.
      */
     DBProperties()
     {
         InputStream inputStream;
-        
+
         inputStream = this.getClass()
-                          .getClassLoader()
-                          .getResourceAsStream(DBProperties.PROPERTIES_FILE_NAME);
-        
+                .getClassLoader()
+                .getResourceAsStream(DBProperties.PROPERTIES_FILE_NAME);
+
         if (inputStream != null)
         {
             try
@@ -62,9 +62,8 @@ class DBProperties extends Properties
             this.setLogin(this.getProperty("login"));
             this.setPassword(this.getProperty("password"));
         }
-        System.out.println(this.url);
     }
-    
+
     /**
      * Gets the url.
      *
@@ -74,7 +73,7 @@ class DBProperties extends Properties
     {
         return this.url;
     }
-    
+
     /**
      * Sets the url.
      *
@@ -84,7 +83,7 @@ class DBProperties extends Properties
     {
         this.url = url;
     }
-    
+
     /**
      * Gets the login.
      *
@@ -94,7 +93,7 @@ class DBProperties extends Properties
     {
         return this.login;
     }
-    
+
     /**
      * Sets the login.
      *
@@ -104,7 +103,7 @@ class DBProperties extends Properties
     {
         this.login = login;
     }
-    
+
     /**
      * Gets the password.
      *
@@ -114,7 +113,7 @@ class DBProperties extends Properties
     {
         return this.password;
     }
-    
+
     /**
      * Sets the password.
      *
@@ -124,5 +123,5 @@ class DBProperties extends Properties
     {
         this.password = password;
     }
-    
+
 }
