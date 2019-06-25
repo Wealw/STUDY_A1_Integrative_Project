@@ -84,5 +84,5 @@ public class Vehicle
     {
         this.totalDistance = totalDistance;
     }
-    
+
 }

@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-import static java.lang.Math.abs;
+import static java.lang.StrictMath.abs;
 
 public class ViewPanel extends JPanel implements Observer
 {
@@ -63,7 +63,7 @@ public class ViewPanel extends JPanel implements Observer
         graphics2D.fillRect(50, 250, 900, 450);
         graphics2D.setColor(Color.BLACK);
         this.setFont(new Font("Dialog", Font.BOLD, 20));
-        graphics2D.drawString("NOM DE LA MAP A INSERER", 375, 275);
+        graphics2D.drawString("Carte : " + Map.getInstance().getName(), 425, 275);
         for (Point intersection : Map.getInstance().getIntersections()){
             graphics2D.setStroke(new BasicStroke(1));
             graphics2D.drawOval(intersection.getX(),intersection.getY(),15,15);
@@ -74,8 +74,8 @@ public class ViewPanel extends JPanel implements Observer
         }
         for (Vehicle vehicle : this.model.getVehicles()){
             graphics2D.drawImage(car, (abs(vehicle.getSection().getOrigin().getX()+vehicle.getSection().getDestination().getX())/2)-14, (abs(vehicle.getSection().getOrigin().getY()+vehicle.getSection().getDestination().getY())/2)-25, null);
-    }
         }
+    }
 
     public void paintVehiculeData(Graphics2D graphics2D)
     {

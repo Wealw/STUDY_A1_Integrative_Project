@@ -18,12 +18,10 @@ import java.util.ArrayList;
  */
 public class DAO
 {
-
     /**
      * Unique instance of the DAOmap class.
      */
-    final static private DAO instance = new DAO(DBConnection.getInstance()
-            .getConnection());
+    final static private DAO instance = new DAO(DBConnection.getInstance().getConnection());
 
     /**
      * The connection parameter inherited from the "../../resources/model.properties" and get by the Abstract class Connection.
@@ -53,7 +51,7 @@ public class DAO
     /**
      * Import a map from a distant DB.
      *
-     * @param id The id of the map you want to import.
+     * @param mapId The id of the map you want to import.
      */
     public void acquireFromDB(final int mapId)
     {
@@ -61,7 +59,7 @@ public class DAO
         {
             ArrayList<Point>  importedIntersections = new ArrayList<Point>();
             ArrayList<Vector> importedConnections   = new ArrayList<Vector>();
-            ResultSet         resultSet             = callProcedure("{call getPoints(?)}", mapId);
+            ResultSet resultSet = callProcedure("{call getPoints(?)}", mapId);
             if (resultSet.first())
             {
                 while (!resultSet.isAfterLast())
@@ -78,7 +76,6 @@ public class DAO
                 {
                     for (Point importedInterstionOrigin : importedIntersections)
                     {
-
                         if (importedInterstionOrigin.getId() == resultSet.getString(1)
                                 .toCharArray()[0])
                         {
@@ -91,15 +88,16 @@ public class DAO
                                 }
                             }
                         }
-
                     }
                     resultSet.next();
                 }
             }
-            Map.getInstance()
-                    .setIntersections(importedIntersections);
-            Map.getInstance()
-                    .setConnections(importedConnections);
+            resultSet = callProcedure("{call getMap(?)}", mapId);
+            if (resultSet.first()) {
+                Map.getInstance().setName(resultSet.getString(1));
+            }
+            Map.getInstance().setIntersections(importedIntersections);
+            Map.getInstance().setConnections(importedConnections);
         }
         catch (final Exception e)
         {
