@@ -1,6 +1,9 @@
 package View;
 
 import Contract.IModel;
+import Model.Map;
+import Model.Point;
+import Model.Vector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,6 +55,17 @@ public class ViewPanel extends JPanel implements Observer
         graphics2D.setColor(Color.BLACK);
         this.setFont(new Font("Dialog", Font.BOLD, 20));
         graphics2D.drawString("NOM DE LA MAP A INSERER", 375, 275);
+        for (Point intersection : Map.getInstance().getIntersections()){
+            System.out.println(intersection.getId() +":"+intersection.getX()+ ":" + intersection.getY());
+            graphics2D.setStroke(new BasicStroke(1));
+            graphics2D.drawOval(intersection.getX(),intersection.getY(),15,15);
+        }
+        for (Vector connection : Map.getInstance().getConnections()){
+            System.out.println(connection.getOrigin().getId() +":"+connection.getDestination().getId());
+            graphics2D.setStroke(new BasicStroke(3));
+            graphics2D.drawLine(connection.getOrigin().getX()+8,connection.getOrigin().getY()+8,connection.getDestination().getX()+8,connection.getDestination().getY()+8);
+        }
+        /*
         graphics2D.setStroke(new BasicStroke(1));
         graphics2D.drawOval(100,330,15,15);
         graphics2D.drawOval(266,330,15,15);
@@ -91,6 +105,7 @@ public class ViewPanel extends JPanel implements Observer
         graphics2D.drawLine(772,558, 772,512);
         graphics2D.drawLine(282,629, 873,629);
         graphics2D.drawLine(883,621, 883,512);
+         */
     }
 
     public void paintVehiculeData(Graphics2D graphics2D)

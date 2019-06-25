@@ -62,6 +62,7 @@ class DBProperties extends Properties
             this.setLogin(this.getProperty("login"));
             this.setPassword(this.getProperty("password"));
         }
+        System.out.println(this.url);
     }
     
     /**
