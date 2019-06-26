@@ -85,6 +85,7 @@ public class DAO
                                         .toCharArray()[0])
                                 {
                                     importedConnections.add(new Vector(importedInterstionOrigin, importedInterstionDestination));
+                                    
                                 }
                             }
                         }

@@ -9,10 +9,11 @@ public class Vehicle
     private String mac;
     private Vector section;
     private Point  facing;
-    private int    speed;
-    private int    positionOnSection;
+    private float  speed;
     private int    distanceOnSection;
     private int    totalDistance;
+    private int    timeOnSection;
+    private int    lastDirection;
     private Color  color;
     
 
@@ -21,7 +22,6 @@ public class Vehicle
         this.mac = newMac;
         this.section = newActualSection;
         this.facing = newFacing;
-        this.positionOnSection = 0;
         this.distanceOnSection = 0;
         this.totalDistance = 0;
         float r = new Random().nextFloat();
@@ -61,21 +61,13 @@ public class Vehicle
     {
         this.facing = facing;
     }
-    public int getSpeed()
+    public float getSpeed()
     {
         return speed;
     }
-    public void setSpeed(int speed)
+    public void setSpeed(float speed)
     {
         this.speed = speed;
-    }
-    public int getPositionOnSection()
-    {
-        return positionOnSection;
-    }
-    public void setPositionOnSection(int positionOnSection)
-    {
-        this.positionOnSection = positionOnSection;
     }
     public int getDistanceOnSection()
     {
@@ -97,5 +89,23 @@ public class Vehicle
     {
         return color;
     }
-
+    
+    public int getTimeOnSection()
+    {
+        return timeOnSection;
+    }
+    public void setTimeOnSection(int timeOnsection)
+    {
+        this.timeOnSection = timeOnsection;
+    }
+    
+    public int getLastDirection()
+    {
+        return lastDirection;
+    }
+    public void setLastDirection(int lastDirection)
+    {
+        this.lastDirection = lastDirection;
+    }
+    
 }

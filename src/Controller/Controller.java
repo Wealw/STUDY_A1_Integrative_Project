@@ -3,6 +3,7 @@ package Controller;
 import Contract.IController;
 import Contract.IModel;
 import Contract.IView;
+import Model.ArduinoToJava;
 import Model.Map;
 import Model.Vehicle;
 
@@ -15,6 +16,7 @@ public class Controller implements IController,Runnable
     private String[] args;
     public Controller(final String[] newArgs,final IModel newModel, final IView newView){
         this.model = newModel;
+        ArduinoToJava.getInstance().setModel(this.model);
         this.view = newView;
         this.args = newArgs;
     }
@@ -95,7 +97,8 @@ private void demoMode(){
 }
 
 private void comMode(){
-
+    this.model.addNewVehicles(new Vehicle("grp6_K2000", "grp6_K2000", Map.getInstance().getConnections().get(40), Map.getInstance().getIntersections().get(10)));
+    ArduinoToJava.getInstance().initialize();
 }
     private void refreshSection(){
         this.model.getVehicles().get(0).setDistanceOnSection((abs(this.model.getVehicles().get(0).getSection().getOrigin().getX()-this.model.getVehicles().get(0).getSection().getDestination().getX())+abs(this.model.getVehicles().get(0).getSection().getOrigin().getY()-this.model.getVehicles().get(0).getSection().getDestination().getY()))/3);

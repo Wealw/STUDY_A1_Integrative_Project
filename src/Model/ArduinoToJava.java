@@ -3,25 +3,40 @@ package Model;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
+import Contract.IModel;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import java.util.Enumeration;
 
-public abstract class ArduinoToJava implements SerialPortEventListener
+import static java.lang.Math.abs;
+
+public class ArduinoToJava implements SerialPortEventListener
 {
     SerialPort serialPort;
     /** The port we're normally going to use. */
     private static final String PORT_NAMES[] = {"/dev/tty.usbserial-A9007UX1", // Mac OS X
                                                 "/dev/ttyUSB0", // Linux
-                                                "COM3", // Windows
+                                                "COM4", // Windows
     };
     
+    private final static ArduinoToJava instance = new ArduinoToJava();
     private BufferedReader input;
     private OutputStream output;
     private static final int TIME_OUT = 2000;
     private static final int DATA_RATE = 9600;
+    private IModel model;
+    
+    
+    public static ArduinoToJava getInstance(){
+        return instance;
+    }
+    
+    public void setModel(final IModel newModel){
+        this.model = newModel;
+    }
     
     public void initialize() {
         CommPortIdentifier portId = null;
@@ -93,10 +108,18 @@ public abstract class ArduinoToJava implements SerialPortEventListener
                         sectionSize = Integer.parseInt(input.readLine());
                         directionTaken = Integer.parseInt(input.readLine());
                         actualPoint = input.readLine();
-                    } else {
-                        sectionIndex = Integer.parseInt(input.readLine());
-                        parkIndex = Integer.parseInt(input.readLine());
-                        parkSize = Integer.parseInt(input.readLine());
+                    } else if (mode == 2) {
+                        this.model.getVehicles().get(0).setDistanceOnSection(Integer.parseInt(input.readLine()));
+                        this.model.getVehicles().get(0).setTotalDistance(this.model.getVehicles().get(0).getDistanceOnSection()+this.model.getVehicles().get(0).getTotalDistance());
+                        this.model.getVehicles().get(0).setTimeOnSection(Integer.parseInt(input.readLine()));
+                        System.out.println(input.readLine());
+                        this.model.getVehicles().get(0).setSpeed((float)this.model.getVehicles().get(0).getDistanceOnSection()/this.model.getVehicles().get(0).getTimeOnSection());
+                        System.out.println(input.readLine());
+                        this.model.getVehicles().get(0).setLastDirection(Integer.parseInt(input.readLine()));
+                        this.model.getVehicles().get(0).setSection(convertToSection(this.model.getVehicles().get(0),this.model.getVehicles().get(0).getLastDirection()));
+                        this.model.getVehicles().get(0).setFacing(this.model.getVehicles().get(0).getSection().getDestination());
+                        
+                        
                     }
                     System.out.println("==========================");
                 }
@@ -106,6 +129,168 @@ public abstract class ArduinoToJava implements SerialPortEventListener
             }
         }
         // Ignore all the other eventTypes, but you should consider the other ones.
+    }
+    
+    private Vector convertToSection(final Vehicle vehicle, final int instruction){
+        
+        if (vehicle.getSection().getOrigin().getX()-vehicle.getSection().getDestination().getX() ==0){
+            if (vehicle.getSection().getOrigin().getY() < vehicle.getSection().getDestination().getY())
+            {
+                switch (instruction)
+                {
+                    case 0:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
+                                if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
+                                if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        Vector section = getStraightVerticalVector(vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    default:
+                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        break;
+                }
+            } else if(vehicle.getSection().getOrigin().getY() > vehicle.getSection().getDestination().getY()){
+                switch (instruction)
+                {
+                    case 0:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
+                                if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
+                                if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        Vector section = getStraightVerticalVector(vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    default:
+                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        break;
+                }
+                }
+            
+            }
+                     else if (vehicle.getSection().getOrigin().getY()-vehicle.getSection().getDestination().getY() ==0){
+            if (vehicle.getSection().getOrigin().getX() < vehicle.getSection().getDestination().getX())
+            {
+                switch (instruction)
+                {
+                    case 0:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                                if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                                if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        Vector section = getStraightHorizontalVector(vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    default:
+                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        break;
+                }
+            } else if(vehicle.getSection().getOrigin().getX() > vehicle.getSection().getDestination().getX()){
+                switch (instruction)
+                {
+                    case 0:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                                if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        for (Vector section : Map.getInstance().getConnections()){
+                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                                if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
+                                    return section;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        Vector section = getStraightHorizontalVector(vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    default:
+                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        break;
+                }
+            }
+
+        
+    }
+    return vehicle.getSection();
+}
+    private Vector getStraightVerticalVector(Vehicle vehicle)
+    {
+        if (vehicle.getDistanceOnSection() > abs(vehicle.getSection().getOrigin().getX()-vehicle.getSection().getDestination().getX())){
+            for (Vector section : Map.getInstance().getConnections()){
+                if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                    if (section.getDestination().getX() == vehicle.getSection().getDestination().getX()){
+                        return section;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    private Vector getStraightHorizontalVector(Vehicle vehicle)
+    {
+        if (vehicle.getDistanceOnSection() > abs(vehicle.getSection().getOrigin().getY()-vehicle.getSection().getDestination().getY())){
+            for (Vector section : Map.getInstance().getConnections()){
+                if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                    if (section.getDestination().getY() == vehicle.getSection().getDestination().getY()){
+                        return section;
+                    }
+                }
+            }
+        }
+        return null;
     }
     /*
     public static void main(String[] args) throws Exception {
