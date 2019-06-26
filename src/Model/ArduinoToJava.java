@@ -130,14 +130,14 @@ public class ArduinoToJava implements SerialPortEventListener
                         }
                         this.lastPoint = this.model.getParkings().get(this.model.getParkings().size()-1).getDestination();
                         this.model.getVehicles().get(0).setSpeed((float)this.model.getVehicles().get(0).getDistanceOnSection()/this.model.getVehicles().get(0).getTimeOnSection());
-                        System.out.println(input.readLine());
+                        temp = input.readLine();
                         this.model.getVehicles().get(0).setLastDirection(Integer.parseInt(input.readLine()));
                         this.model.getVehicles().get(0).setSection(convertToSection(this.model.getVehicles().get(0),this.model.getVehicles().get(0).getLastDirection()));
                         this.model.getVehicles().get(0).setFacing(this.model.getVehicles().get(0).getSection().getDestination());
                         
                         
                     }
-                    System.out.println("==========================");
+                    //System.out.println("==========================");
                 }
                 
             } catch (Exception e) {
