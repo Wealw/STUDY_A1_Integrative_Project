@@ -72,11 +72,27 @@ public class ViewPanel extends JPanel implements Observer
             graphics2D.setStroke(new BasicStroke(3));
             graphics2D.drawLine(connection.getOrigin().getX()+8,connection.getOrigin().getY()+8,connection.getDestination().getX()+8,connection.getDestination().getY()+8);
         }
-        for (Vehicle vehicle : this.model.getVehicles()){
-            graphics2D.setStroke(new BasicStroke(15));
-            graphics2D.setColor(vehicle.getColor());
-            graphics2D.drawOval((abs(vehicle.getSection().getOrigin().getX()+vehicle.getSection().getDestination().getX())/2),(abs(vehicle.getSection().getOrigin().getY()+vehicle.getSection().getDestination().getY())/2),15,15);
+        for (Vector parkingPlace : this.model.getParkings()){
+            graphics2D.setStroke(new BasicStroke(5));
+            switch (parkingPlace.getTag()){
+                case 1:
+                    graphics2D.setColor(new Color(255,0,0));
+                    break;
+                case 2:
+                    graphics2D.setColor(new Color(0,255,0));
+                   break;
+               default:
+                   graphics2D.setColor(new Color(0,0,0));
+                   break;
+            }
+            graphics2D.drawLine(parkingPlace.getOrigin().getX()+8,parkingPlace.getOrigin().getY()+8,parkingPlace.getDestination().getX()+8,parkingPlace.getDestination().getY()+8);
             graphics2D.setColor(new Color(0,0,0));
+            for (Vehicle vehicle : this.model.getVehicles()){
+                graphics2D.setStroke(new BasicStroke(15));
+                graphics2D.setColor(vehicle.getColor());
+                graphics2D.drawOval((abs(vehicle.getSection().getOrigin().getX()+vehicle.getSection().getDestination().getX())/2),(abs(vehicle.getSection().getOrigin().getY()+vehicle.getSection().getDestination().getY())/2),15,15);
+                graphics2D.setColor(new Color(0,0,0));
+            }
         }
     }
 

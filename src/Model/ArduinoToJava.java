@@ -24,11 +24,12 @@ public class ArduinoToJava implements SerialPortEventListener
     
     private final static ArduinoToJava instance = new ArduinoToJava();
     private BufferedReader input;
+    private String temp;
     private OutputStream output;
     private static final int TIME_OUT = 2000;
     private static final int DATA_RATE = 9600;
     private IModel model;
-    
+    private Point lastPoint;
     
     public static ArduinoToJava getInstance(){
         return instance;
@@ -41,7 +42,7 @@ public class ArduinoToJava implements SerialPortEventListener
     public void initialize() {
         CommPortIdentifier portId = null;
         Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-        
+        lastPoint = this.model.getVehicles().get(0).getSection().getOrigin();
         //First, Find an instance of serial port as set in PORT_NAMES.
         while (portEnum.hasMoreElements()) {
             CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
@@ -87,6 +88,7 @@ public class ArduinoToJava implements SerialPortEventListener
     public synchronized void serialEvent(SerialPortEvent oEvent) {
         if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
+                int previousTotalDistance = 0;
                 int mode = 0;
                 int parkIndex = 0;
                 int sectionIndex = 0;
@@ -109,10 +111,24 @@ public class ArduinoToJava implements SerialPortEventListener
                         directionTaken = Integer.parseInt(input.readLine());
                         actualPoint = input.readLine();
                     } else if (mode == 2) {
+                        
                         this.model.getVehicles().get(0).setDistanceOnSection(Integer.parseInt(input.readLine()));
                         this.model.getVehicles().get(0).setTotalDistance(this.model.getVehicles().get(0).getDistanceOnSection()+this.model.getVehicles().get(0).getTotalDistance());
                         this.model.getVehicles().get(0).setTimeOnSection(Integer.parseInt(input.readLine()));
-                        System.out.println(input.readLine());
+                        this.temp = input.readLine();
+                        this.model.addNewParking(new Vector(lastPoint,new Point('.', (int) Math.round(lastPoint.getX() + 0.36254 * getFactorX() * this.model.getVehicles().get(0).getDistanceOnSection()), (int) Math.round(lastPoint.getY() + (0.235 * getFactorY() * this.model.getVehicles().get(0).getDistanceOnSection())))));
+                        switch (this.temp){
+                            case "building":
+                                this.model.getParkings().get(this.model.getParkings().size()-1).setTag(1);
+                            break;
+                            case "hole":
+                                this.model.getParkings().get(this.model.getParkings().size()-1).setTag(2);
+                                break;
+                            default:
+                            System.err.println("INCORRECT TYPE IN TRANSMISSION");
+                                break;
+                        }
+                        this.lastPoint = this.model.getParkings().get(this.model.getParkings().size()-1).getDestination();
                         this.model.getVehicles().get(0).setSpeed((float)this.model.getVehicles().get(0).getDistanceOnSection()/this.model.getVehicles().get(0).getTimeOnSection());
                         System.out.println(input.readLine());
                         this.model.getVehicles().get(0).setLastDirection(Integer.parseInt(input.readLine()));
@@ -142,6 +158,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
                                 if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -151,6 +168,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
                                 if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -172,6 +190,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
                                 if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -181,6 +200,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
                                 if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -207,6 +227,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
                                 if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -216,6 +237,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
                                 if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -237,6 +259,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
                                 if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -246,6 +269,7 @@ public class ArduinoToJava implements SerialPortEventListener
                         for (Vector section : Map.getInstance().getConnections()){
                             if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
                                 if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
+                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
                                     return section;
                                 }
                             }
@@ -292,6 +316,27 @@ public class ArduinoToJava implements SerialPortEventListener
         }
         return null;
     }
+    
+    private int getFactorX(){
+        if (this.model.getVehicles().get(0).getSection().getOrigin().getX() < this.model.getVehicles().get(0).getSection().getDestination().getX()){
+            return 1;
+        } else if(this.model.getVehicles().get(0).getSection().getOrigin().getX() > this.model.getVehicles().get(0).getSection().getDestination().getX()){
+            return -1;
+        }else {
+            return 0;
+        }
+    }
+    
+    private int getFactorY(){
+        if (this.model.getVehicles().get(0).getSection().getOrigin().getY() < this.model.getVehicles().get(0).getSection().getDestination().getY()){
+            return 1;
+        } else if(this.model.getVehicles().get(0).getSection().getOrigin().getY() > this.model.getVehicles().get(0).getSection().getDestination().getY()){
+            return -1;
+        }else {
+            return 0;
+        }
+    }
+    
     /*
     public static void main(String[] args) throws Exception {
         SerialTest main = new SerialTest();

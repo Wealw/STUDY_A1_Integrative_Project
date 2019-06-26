@@ -14,7 +14,8 @@ public class Vehicle
     private int    totalDistance;
     private int    timeOnSection;
     private int    lastDirection;
-    private Color  color;
+    private Point lastTurnedIntersection;
+    private Color color;
     
 
     public Vehicle(final String newName, final String newMac , final Vector newActualSection, final Point newFacing){
@@ -107,5 +108,13 @@ public class Vehicle
     {
         this.lastDirection = lastDirection;
     }
-    
+    public Point getLastTurnedIntersection()
+    {
+        return lastTurnedIntersection;
+    }
+    public Vehicle setLastTurnedIntersection(Point lastTurnedIntersection)
+    {
+        this.lastTurnedIntersection = lastTurnedIntersection;
+        return this;
+    }
 }
