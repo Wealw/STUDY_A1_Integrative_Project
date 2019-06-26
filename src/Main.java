@@ -21,7 +21,7 @@ public abstract class Main
     public static void main(final String[] args) throws InterruptedException, IOException {
         final Model model = new Model();
         final View view = new View(model);
-        final Controller controller = new Controller(model, view);
+        final Controller controller = new Controller(args, model, view);
         view.setController(controller);
         controller.run();
     }

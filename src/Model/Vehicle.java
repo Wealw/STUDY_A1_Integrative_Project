@@ -1,15 +1,20 @@
 package Model;
 
+import java.awt.*;
+import java.util.Random;
+
 public class Vehicle
 {
     private String name;
     private String mac;
     private Vector section;
-    private Point facing;
-    private int   speed;
-    private int   positionOnSection;
-    private int   distanceOnSection;
-    private int   totalDistance;
+    private Point  facing;
+    private int    speed;
+    private int    positionOnSection;
+    private int    distanceOnSection;
+    private int    totalDistance;
+    private Color  color;
+    
 
     public Vehicle(final String newName, final String newMac , final Vector newActualSection, final Point newFacing){
         this.name = newName;
@@ -19,6 +24,10 @@ public class Vehicle
         this.positionOnSection = 0;
         this.distanceOnSection = 0;
         this.totalDistance = 0;
+        float r = new Random().nextFloat();
+        float g = new Random().nextFloat();
+        float b = new Random().nextFloat();
+        this.color = new Color(r , g ,b);
     }
     public String getName()
     {
@@ -83,6 +92,10 @@ public class Vehicle
     public void setTotalDistance(int totalDistance)
     {
         this.totalDistance = totalDistance;
+    }
+    public Color getColor()
+    {
+        return color;
     }
 
 }

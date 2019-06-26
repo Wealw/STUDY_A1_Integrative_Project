@@ -7,6 +7,6 @@ import java.util.ArrayList;
 public interface IModel
 {
     public ArrayList<Vehicle> getVehicles();
-
-    public void setVehicles(ArrayList<Vehicle> vehicles);
+    
+    public void addNewVehicles(Vehicle vehicle);
 }

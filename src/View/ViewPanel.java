@@ -73,7 +73,10 @@ public class ViewPanel extends JPanel implements Observer
             graphics2D.drawLine(connection.getOrigin().getX()+8,connection.getOrigin().getY()+8,connection.getDestination().getX()+8,connection.getDestination().getY()+8);
         }
         for (Vehicle vehicle : this.model.getVehicles()){
-            graphics2D.drawImage(car, (abs(vehicle.getSection().getOrigin().getX()+vehicle.getSection().getDestination().getX())/2)-14, (abs(vehicle.getSection().getOrigin().getY()+vehicle.getSection().getDestination().getY())/2)-25, null);
+            graphics2D.setStroke(new BasicStroke(15));
+            graphics2D.setColor(vehicle.getColor());
+            graphics2D.drawOval((abs(vehicle.getSection().getOrigin().getX()+vehicle.getSection().getDestination().getX())/2),(abs(vehicle.getSection().getOrigin().getY()+vehicle.getSection().getDestination().getY())/2),15,15);
+            graphics2D.setColor(new Color(0,0,0));
         }
     }
 

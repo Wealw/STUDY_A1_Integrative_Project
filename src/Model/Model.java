@@ -11,14 +11,15 @@ public class Model implements IModel
 
     public Model(){
         DAO.getInstance().acquireFromDB(1);
-        vehicles.add(new Vehicle("grp6_K2000", "grp6_K2000", Map.getInstance().getConnections().get(40), Map.getInstance().getIntersections().get(10)));
     }
+    
+    
 
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
-        this.vehicles = vehicles;
+    public void addNewVehicles(Vehicle vehicle) {
+        vehicles.add(vehicle);
     }
 }
