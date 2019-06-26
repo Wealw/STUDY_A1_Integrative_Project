@@ -59,6 +59,7 @@ public class ViewPanel extends JPanel implements Observer
 
     public void paintMap(Graphics2D graphics2D)
     {
+        try{
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(50, 250, 900, 450);
         graphics2D.setColor(Color.BLACK);
@@ -87,12 +88,15 @@ public class ViewPanel extends JPanel implements Observer
             }
             graphics2D.drawLine(parkingPlace.getOrigin().getX()+8,parkingPlace.getOrigin().getY()+8,parkingPlace.getDestination().getX()+8,parkingPlace.getDestination().getY()+8);
             graphics2D.setColor(new Color(0,0,0));
+        }
             for (Vehicle vehicle : this.model.getVehicles()){
                 graphics2D.setStroke(new BasicStroke(15));
                 graphics2D.setColor(vehicle.getColor());
                 graphics2D.drawOval((abs(vehicle.getSection().getOrigin().getX()+vehicle.getSection().getDestination().getX())/2),(abs(vehicle.getSection().getOrigin().getY()+vehicle.getSection().getDestination().getY())/2),15,15);
                 graphics2D.setColor(new Color(0,0,0));
             }
+        } catch (final Exception e) {
+        
         }
     }
 

@@ -155,64 +155,51 @@ public class ArduinoToJava implements SerialPortEventListener
                 switch (instruction)
                 {
                     case 0:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
-                                if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
+                        Vector section1 = getVectorXmoreX((Vehicle) vehicle);
+                        if (section1 != null)
+                            return section1;
                         break;
                     case 1:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
-                                if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
+                        Vector section2 = getVectorXlessX((Vehicle) vehicle);
+                        if (section2 != null)
+                            return section2;
                         break;
                     case 2:
                         Vector section = getStraightVerticalVector(vehicle);
                         if (section != null)
                             return section;
                         break;
+                    case 3:
+                        //System.out.println("STOP");
+                        break;
                     default:
-                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        //System.err.println("BAD_INSTRUCTION_FAULT");
                         break;
                 }
             } else if(vehicle.getSection().getOrigin().getY() > vehicle.getSection().getDestination().getY()){
+                Vector section;
                 switch (instruction)
                 {
                     case 0:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
-                                if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
-                        break;
-                    case 1:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
-                                if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
-                        break;
-                    case 2:
-                        Vector section = getStraightVerticalVector(vehicle);
+                        section = getVectorXlessX((Vehicle) vehicle);
                         if (section != null)
                             return section;
                         break;
+                    case 1:
+                        section = getVectorXmoreX((Vehicle) vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    case 2:
+                        section = getStraightVerticalVector(vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    case 3:
+                        //System.out.println("STOP");
+                        break;
                     default:
-                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        //System.err.println("BAD_INSTRUCTION_FAULT");
                         break;
                 }
                 }
@@ -224,64 +211,51 @@ public class ArduinoToJava implements SerialPortEventListener
                 switch (instruction)
                 {
                     case 0:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
-                                if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
+                        Vector section1 = getVectorYmoreY((Vehicle) vehicle);
+                        if (section1 != null)
+                            return section1;
                         break;
                     case 1:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
-                                if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
+                        Vector section2 = getVectorYlessY((Vehicle) vehicle);
+                        if (section2 != null)
+                            return section2;
                         break;
                     case 2:
                         Vector section = getStraightHorizontalVector(vehicle);
                         if (section != null)
                             return section;
                         break;
+                    case 3:
+                        //System.out.println("STOP");
+                        break;
                     default:
-                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        //System.err.println("BAD_INSTRUCTION_FAULT");
                         break;
                 }
             } else if(vehicle.getSection().getOrigin().getX() > vehicle.getSection().getDestination().getX()){
+                Vector section;
                 switch (instruction)
                 {
                     case 0:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
-                                if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
-                        break;
-                    case 1:
-                        for (Vector section : Map.getInstance().getConnections()){
-                            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
-                                if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
-                                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
-                                    return section;
-                                }
-                            }
-                        }
-                        break;
-                    case 2:
-                        Vector section = getStraightHorizontalVector(vehicle);
+                        section = getVectorYlessY((Vehicle) vehicle);
                         if (section != null)
                             return section;
                         break;
+                    case 1:
+                        section = getVectorYmoreY((Vehicle) vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    case 2:
+                        section = getStraightHorizontalVector(vehicle);
+                        if (section != null)
+                            return section;
+                        break;
+                    case 3:
+                        //System.out.println("STOP");
+                        break;
                     default:
-                        System.err.println("BAD_INSTRUCTION_FAULT");
+                        //System.err.println("BAD_INSTRUCTION_FAULT");
                         break;
                 }
             }
@@ -290,6 +264,54 @@ public class ArduinoToJava implements SerialPortEventListener
     }
     return vehicle.getSection();
 }
+    private Vector getVectorYlessY(Vehicle vehicle)
+    {
+        for (Vector section : Map.getInstance().getConnections()){
+            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                if (section.getDestination().getY() > vehicle.getSection().getDestination().getY()){
+                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
+                    return section;
+                }
+            }
+        }
+        return null;
+    }
+    private Vector getVectorYmoreY(Vehicle vehicle)
+    {
+        for (Vector section : Map.getInstance().getConnections()){
+            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()&& vehicle.getSection().getOrigin() != section.getDestination()){
+                if (section.getDestination().getY() < vehicle.getSection().getDestination().getY()){
+                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
+                    return section;
+                }
+            }
+        }
+        return null;
+    }
+    private Vector getVectorXlessX(Vehicle vehicle)
+    {
+        for (Vector section : Map.getInstance().getConnections()){
+            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
+                if (section.getDestination().getX() < vehicle.getSection().getDestination().getX()){
+                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
+                    return section;
+                }
+            }
+        }
+        return null;
+    }
+    private Vector getVectorXmoreX(Vehicle vehicle)
+    {
+        for (Vector section : Map.getInstance().getConnections()){
+            if(section.getOrigin().getId() == vehicle.getSection().getDestination().getId()){
+                if (section.getDestination().getX() > vehicle.getSection().getDestination().getX()){
+                    this.model.getVehicles().get(0).setLastTurnedIntersection(section.getOrigin());
+                    return section;
+                }
+            }
+        }
+        return null;
+    }
     private Vector getStraightVerticalVector(Vehicle vehicle)
     {
         if (vehicle.getDistanceOnSection() > abs(vehicle.getSection().getOrigin().getX()-vehicle.getSection().getDestination().getX())){
